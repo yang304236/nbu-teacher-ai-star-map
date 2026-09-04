@@ -101,6 +101,25 @@ const styles = {
   论文致谢版: '谨向您在学习方法、学术视野与成长信心方面给予的指导致以诚挚谢意。',
 };
 
+function escapeXml(value: string) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+async function loadLogoDataUri() {
+  const response = await fetch('/brand/nbu-logo.png');
+  const blob = await response.blob();
+  return await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(blob);
+  });
+}
+
 declare global {
   interface Document {
     modelContext?: {
@@ -127,12 +146,61 @@ export default function Home() {
   const [style, setStyle] = useState<keyof typeof styles>('真诚版');
   const [studentLine, setStudentLine] = useState('谢谢老师把晦涩的知识讲得清楚，也把我们带到更远的地方。');
   const [teacherName, setTeacherName] = useState('陈老师');
+  const [notice, setNotice] = useState('');
   const selected = teachers.find((teacher) => teacher.id === selectedId) ?? teachers[0];
 
   const generatedGreeting = useMemo(() => {
     const seed = styles[style];
     return `${teacherName || selected.name}，教师节快乐！${seed} 在宁波大学信息科学与工程学院的星图里，您是同学们反复提起的那颗亮星：${studentLine}`;
   }, [style, studentLine, teacherName, selected.name]);
+
+  const downloadCard = async () => {
+    const logo = await loadLogoDataUri();
+    const safeName = escapeXml(selected.name);
+    const safeTitle = escapeXml(selected.title);
+    const safeGreeting = escapeXml(`愿每一次授课都被记得，每一份耐心都被看见。教师节快乐！`);
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1440" viewBox="0 0 1080 1440">
+      <defs>
+        <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stop-color="#07172d"/>
+          <stop offset="55%" stop-color="#0d7897"/>
+          <stop offset="100%" stop-color="#fff3c0"/>
+        </linearGradient>
+      </defs>
+      <rect width="1080" height="1440" fill="url(#bg)"/>
+      <circle cx="880" cy="180" r="210" fill="#f6d784" opacity=".16"/>
+      <circle cx="180" cy="1160" r="280" fill="#78d9ff" opacity=".12"/>
+      <image href="${logo}" x="90" y="92" width="118" height="118"/>
+      <text x="232" y="142" fill="#ffe9a8" font-size="34" font-family="Microsoft YaHei, Arial" font-weight="700">宁波大学信息科学与工程学院</text>
+      <text x="232" y="190" fill="#d6f5ff" font-size="23" font-family="Arial">Faculty of Electrical Engineering and Computer Science</text>
+      <text x="90" y="445" fill="#ffffff" font-size="58" font-family="Microsoft YaHei, Arial" font-weight="700">师恩如星，智启未来</text>
+      <text x="90" y="570" fill="#d6f5ff" font-size="34" font-family="Microsoft YaHei, Arial">献给</text>
+      <text x="90" y="685" fill="#ffe9a8" font-size="96" font-family="Microsoft YaHei, Arial" font-weight="800">${safeName}</text>
+      <text x="90" y="755" fill="#d6f5ff" font-size="34" font-family="Microsoft YaHei, Arial">${safeTitle}</text>
+      <rect x="90" y="850" width="900" height="278" rx="18" fill="#ffffff" opacity=".92"/>
+      <text x="140" y="930" fill="#10233b" font-size="42" font-family="Microsoft YaHei, Arial" font-weight="700">教师节快乐</text>
+      <text x="140" y="1010" fill="#40536a" font-size="34" font-family="Microsoft YaHei, Arial">${safeGreeting}</text>
+      <text x="90" y="1270" fill="#fff5cf" font-size="28" font-family="Microsoft YaHei, Arial">2026 教师节 AI 谢师星图</text>
+    </svg>`;
+    const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${selected.name}-教师节贺卡.svg`;
+    link.click();
+    URL.revokeObjectURL(url);
+    setNotice('贺卡已生成下载');
+  };
+
+  const shareGreeting = async () => {
+    const text = `${selected.name}的教师节 AI 谢师星图：${generatedGreeting}`;
+    if (navigator.share) {
+      await navigator.share({ title: '师恩如星，智启未来', text });
+      setNotice('已打开系统分享');
+      return;
+    }
+    await navigator.clipboard.writeText(text);
+    setNotice('祝福已复制');
+  };
 
   useEffect(() => {
     const context = document.modelContext;
@@ -370,14 +438,15 @@ export default function Home() {
               </div>
             </div>
             <div className="mt-4 flex gap-2">
-              <Button className="flex-1 bg-[#0d7897] text-white hover:bg-[#09647f]">
+              <Button className="flex-1 bg-[#0d7897] text-white hover:bg-[#09647f]" onClick={downloadCard}>
                 <Download className="h-4 w-4" />
                 保存贺卡
               </Button>
-              <Button variant="outline" className="border-[#dec36b] bg-white/55">
+              <Button variant="outline" className="border-[#dec36b] bg-white/55" onClick={shareGreeting} aria-label="分享祝福">
                 <Share2 className="h-4 w-4" />
               </Button>
             </div>
+            {notice ? <p className="mt-2 text-center text-sm text-[#7d5a14]">{notice}</p> : null}
           </section>
         </aside>
       </section>
