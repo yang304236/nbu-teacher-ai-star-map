@@ -19,77 +19,82 @@ import { Textarea } from '@/components/ui/textarea';
 const teachers = [
   {
     id: 'chen',
-    name: '陈老师',
-    title: '人工智能与模式识别',
-    group: '计算机科学与技术系',
+    name: '启智星',
+    title: '人工智能与数据科学',
+    group: '无需提前收集名单',
     x: 18,
     y: 32,
     glow: 1.08,
-    keywords: ['启发式课堂', 'AI 入门', '耐心答疑', '科研引路'],
+    keywords: ['启发思考', '算法之光', '科研引路', '耐心答疑'],
+    memory: '您把复杂的问题拆成清晰的路径，也把面对未知的勇气留给同学们。',
     wishes: [
-      '谢谢您把复杂的模型讲成我们听得懂的故事。',
-      '第一次觉得算法不是公式，而是一种解决问题的方法。',
-      '愿您新的一年课题顺利，课堂继续发光。',
+      '不需要提前征集，扫码后即可生成专属祝福。',
+      '老师输入姓名，选择学科星，就能保存自己的电子贺卡。',
+      '学生现场补一句话，也可以让祝福更贴近本人。',
     ],
   },
   {
     id: 'zhang',
-    name: '张老师',
-    title: '数字信号处理',
-    group: '电子信息工程系',
+    name: '信号星',
+    title: '电子信息与通信工程',
+    group: '无需提前收集名单',
     x: 35,
     y: 22,
     glow: 0.94,
-    keywords: ['信号之光', '严谨细致', '课堂节奏', '实验陪伴'],
+    keywords: ['严谨细致', '工程直觉', '实验陪伴', '连接未来'],
+    memory: '那些图像、波形、频谱和系统，在您的课堂里慢慢变成可理解的世界。',
     wishes: [
-      '每一次实验卡住时，您都把我们从混乱里带出来。',
-      '谢谢您让波形、频谱和工程直觉真正连在一起。',
-      '祝您教师节快乐，桃李满院。',
+      '不需要提前征集，扫码后即可生成专属祝福。',
+      '老师输入姓名，选择学科星，就能保存自己的电子贺卡。',
+      '学生现场补一句话，也可以让祝福更贴近本人。',
     ],
   },
   {
     id: 'lin',
-    name: '林老师',
+    name: '守护星',
     title: '网络空间安全',
-    group: '通信工程系',
+    group: '无需提前收集名单',
     x: 63,
     y: 30,
     glow: 1.16,
     keywords: ['安全边界', '攻防思维', '实践导向', '温和坚定'],
+    memory: '您让同学们懂得，技术不仅是能力，也是一份面对真实世界的责任。',
     wishes: [
-      '您教会我们的不只是安全技术，还有面对未知的冷静。',
-      '课堂上的案例让我们第一次感到专业和现实如此接近。',
-      '愿您的每一天都被认真和热爱回应。',
+      '不需要提前征集，扫码后即可生成专属祝福。',
+      '老师输入姓名，选择学科星，就能保存自己的电子贺卡。',
+      '学生现场补一句话，也可以让祝福更贴近本人。',
     ],
   },
   {
     id: 'wang',
-    name: '王老师',
-    title: '嵌入式系统',
-    group: '物联网工程系',
+    name: '创客星',
+    title: '物联网与嵌入式系统',
+    group: '无需提前收集名单',
     x: 76,
     y: 58,
     glow: 1.02,
     keywords: ['动手实践', '系统思维', '项目驱动', '温暖鼓励'],
+    memory: '从一块开发板到一个完整系统，您陪同学们把想法落到真实运行的瞬间。',
     wishes: [
-      '谢谢您让一块开发板变成我们理解世界的入口。',
-      '每次演示成功，都想起您说“再查一下时序”。',
-      '祝老师身体健康，代码少报错，生活多惊喜。',
+      '不需要提前征集，扫码后即可生成专属祝福。',
+      '老师输入姓名，选择学科星，就能保存自己的电子贺卡。',
+      '学生现场补一句话，也可以让祝福更贴近本人。',
     ],
   },
   {
     id: 'li',
-    name: '李老师',
-    title: '数据科学导论',
-    group: '信息管理与信息系统系',
+    name: '引路星',
+    title: '信息科学与工程',
+    group: '无需提前收集名单',
     x: 51,
     y: 69,
     glow: 0.9,
-    keywords: ['数据素养', '循循善诱', '案例鲜活', '思辨训练'],
+    keywords: ['循循善诱', '认真负责', '课堂温度', '长期陪伴'],
+    memory: '您讲授的是知识，托举的是信心，留下的是一届又一届学生继续向前的底气。',
     wishes: [
-      '谢谢您提醒我们，数据背后首先是人和问题。',
-      '您的课堂让我们学会用证据说话。',
-      '愿老师在新的学期里继续温柔而有力量。',
+      '不需要提前征集，扫码后即可生成专属祝福。',
+      '老师输入姓名，选择学科星，就能保存自己的电子贺卡。',
+      '学生现场补一句话，也可以让祝福更贴近本人。',
     ],
   },
 ];
@@ -144,19 +149,20 @@ declare global {
 export default function Home() {
   const [selectedId, setSelectedId] = useState(teachers[0].id);
   const [style, setStyle] = useState<keyof typeof styles>('真诚版');
-  const [studentLine, setStudentLine] = useState('谢谢老师把晦涩的知识讲得清楚，也把我们带到更远的地方。');
-  const [teacherName, setTeacherName] = useState('陈老师');
+  const [studentLine, setStudentLine] = useState('不用提前收集寄语，也想把同学们共同的感谢送到您身边。');
+  const [teacherName, setTeacherName] = useState('老师');
   const [notice, setNotice] = useState('');
   const selected = teachers.find((teacher) => teacher.id === selectedId) ?? teachers[0];
+  const displayName = teacherName.trim() || '老师';
 
   const generatedGreeting = useMemo(() => {
     const seed = styles[style];
-    return `${teacherName || selected.name}，教师节快乐！${seed} 在宁波大学信息科学与工程学院的星图里，您是同学们反复提起的那颗亮星：${studentLine}`;
-  }, [style, studentLine, teacherName, selected.name]);
+    return `${displayName}，教师节快乐！${seed} ${selected.memory} ${studentLine.trim()}`;
+  }, [style, studentLine, displayName, selected.memory]);
 
   const downloadCard = async () => {
     const logo = await loadLogoDataUri();
-    const safeName = escapeXml(selected.name);
+    const safeName = escapeXml(displayName);
     const safeTitle = escapeXml(selected.title);
     const safeGreeting = escapeXml(`愿每一次授课都被记得，每一份耐心都被看见。教师节快乐！`);
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1440" viewBox="0 0 1080 1440">
@@ -180,19 +186,19 @@ export default function Home() {
       <rect x="90" y="850" width="900" height="278" rx="18" fill="#ffffff" opacity=".92"/>
       <text x="140" y="930" fill="#10233b" font-size="42" font-family="Microsoft YaHei, Arial" font-weight="700">教师节快乐</text>
       <text x="140" y="1010" fill="#40536a" font-size="34" font-family="Microsoft YaHei, Arial">${safeGreeting}</text>
-      <text x="90" y="1270" fill="#fff5cf" font-size="28" font-family="Microsoft YaHei, Arial">2026 教师节 AI 谢师星图</text>
+      <text x="90" y="1270" fill="#fff5cf" font-size="28" font-family="Microsoft YaHei, Arial">2026 教师节 AI 谢师星图 · 零收集应急版</text>
     </svg>`;
     const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
     const link = document.createElement('a');
     link.href = url;
-    link.download = `${selected.name}-教师节贺卡.svg`;
+    link.download = `${displayName}-教师节贺卡.svg`;
     link.click();
     URL.revokeObjectURL(url);
     setNotice('贺卡已生成下载');
   };
 
   const shareGreeting = async () => {
-    const text = `${selected.name}的教师节 AI 谢师星图：${generatedGreeting}`;
+    const text = `${displayName}的教师节 AI 谢师星图：${generatedGreeting}`;
     if (navigator.share) {
       await navigator.share({ title: '师恩如星，智启未来', text });
       setNotice('已打开系统分享');
@@ -229,7 +235,7 @@ export default function Home() {
             execute() {
               return {
                 selectedTeacherId: selectedId,
-                selectedTeacherName: selected.name,
+                selectedTeacherName: displayName,
                 availableTeacherIds: teachers.map((teacher) => teacher.id),
               };
             },
@@ -266,7 +272,6 @@ export default function Home() {
                 throw new Error('Please provide a valid teacherId, style, and studentLine.');
               }
               setSelectedId(nextTeacher.id);
-              setTeacherName(nextTeacher.name);
               setStyle(value.style);
               setStudentLine(value.studentLine.trim());
               return {
@@ -284,7 +289,7 @@ export default function Home() {
     }
 
     return () => lifecycle.abort();
-  }, [selected.name, selectedId]);
+  }, [displayName, selectedId]);
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#07172d] text-white">
@@ -316,8 +321,25 @@ export default function Home() {
             </div>
             <h1 className="text-3xl font-semibold leading-tight sm:text-5xl">师恩如星，智启未来</h1>
             <p className="mt-4 max-w-xl text-base leading-7 text-cyan-50/82">
-              每一颗星都是一位老师。AI 将学生寄语整理成感谢信、关键词和专属电子贺卡，让扫码进入的瞬间就有仪式感。
+              不必提前收集老师名单和学生寄语。扫码后输入姓名，选择一颗学科星，AI 即时生成祝福和可保存贺卡。
             </p>
+            <div className="mt-5 grid max-w-[680px] gap-3 md:grid-cols-[220px_1fr]">
+              <Input
+                value={teacherName}
+                onChange={(event) => setTeacherName(event.target.value)}
+                className="h-11 border-white/15 bg-white/95 text-base text-[#10233b]"
+                aria-label="老师姓名"
+              />
+              <Tabs value={style} onValueChange={(value) => setStyle(value as keyof typeof styles)}>
+                <TabsList className="grid h-11 w-full grid-cols-4 bg-white/12">
+                  {Object.keys(styles).map((item) => (
+                    <TabsTrigger key={item} value={item} className="text-sm">
+                      {item}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </Tabs>
+            </div>
           </div>
 
           <svg className="absolute inset-0 h-full w-full" role="img" aria-label="教师星图">
@@ -357,9 +379,8 @@ export default function Home() {
                 }}
                 onClick={() => {
                   setSelectedId(teacher.id);
-                  setTeacherName(teacher.name);
                 }}
-                aria-label={`查看${teacher.name}的祝福`}
+                aria-label={`选择${teacher.name}`}
               >
                 <span />
                 <strong>{teacher.name}</strong>
@@ -370,9 +391,9 @@ export default function Home() {
 
           <div className="absolute bottom-5 left-5 right-5 grid gap-3 sm:grid-cols-3">
             {[
-              ['AI 情感摘要', '学生寄语生成专属感谢信'],
-              ['AI 关键词提取', '自动整理课堂记忆标签'],
-              ['AI 贺卡生成', '一师一图，扫码即得'],
+              ['0 名单', '不用提前整理老师信息'],
+              ['0 征集', '学生寄语变成可选输入'],
+              ['1 二维码', '当天扫码即可生成贺卡'],
             ].map(([label, text]) => (
               <div key={label} className="rounded-[8px] border border-white/10 bg-black/18 p-4 backdrop-blur">
                 <p className="text-sm font-semibold text-[#f6d784]">{label}</p>
@@ -387,8 +408,8 @@ export default function Home() {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="text-sm text-slate-500">{selected.group}</p>
-                <h2 className="mt-1 text-3xl font-semibold">{selected.name}</h2>
-                <p className="mt-1 text-sm font-medium text-[#14779a]">{selected.title}</p>
+                <h2 className="mt-1 text-3xl font-semibold">{displayName}</h2>
+                <p className="mt-1 text-sm font-medium text-[#14779a]">{selected.name} · {selected.title}</p>
               </div>
               <Sparkles className="h-6 w-6 text-[#ca941f]" />
             </div>
@@ -407,7 +428,7 @@ export default function Home() {
                 同学们眼中的您
               </div>
               <p className="text-base leading-8 text-slate-700">
-                AI 已从学生寄语中提炼出这份感谢：您把专业知识讲得清楚，也把探索未知的勇气留给同学们。那些课堂上的提醒、实验里的等待、答疑时的耐心，都会成为大家继续向前的星光。
+                {generatedGreeting}
               </p>
             </div>
 
@@ -431,7 +452,7 @@ export default function Home() {
               </div>
               <div className="mt-6">
                 <p className="text-sm text-slate-500">献给</p>
-                <p className="mt-1 text-4xl font-semibold text-[#10233b]">{selected.name}</p>
+                <p className="mt-1 text-4xl font-semibold text-[#10233b]">{displayName}</p>
                 <p className="mt-4 text-lg leading-8 text-slate-700">
                   愿每一次授课都被记得，每一份耐心都被看见。教师节快乐！
                 </p>
@@ -455,7 +476,7 @@ export default function Home() {
         <div className="rounded-[8px] border border-white/12 bg-white/[.075] p-5 backdrop-blur">
           <div className="mb-4 flex items-center gap-2">
             <Search className="h-5 w-5 text-[#f6d784]" />
-            <h2 className="text-xl font-semibold">AI 祝福生成器</h2>
+            <h2 className="text-xl font-semibold">可选补一句话</h2>
           </div>
           <div className="grid gap-3 md:grid-cols-[220px_1fr]">
             <Input
@@ -488,12 +509,12 @@ export default function Home() {
         <div className="rounded-[8px] border border-white/12 bg-white/[.075] p-5 backdrop-blur">
           <div className="mb-4 flex items-center gap-2">
             <BookOpenText className="h-5 w-5 text-[#f6d784]" />
-            <h2 className="text-xl font-semibold">活动数据怎么换</h2>
+            <h2 className="text-xl font-semibold">当天执行</h2>
           </div>
           <div className="space-y-3 text-sm leading-7 text-cyan-50/82">
-            <p>把老师姓名、系所、课程方向、学生寄语整理成表格后，就能批量替换页面里的示例数据。</p>
-            <p>正式版建议提前生成每位老师的感谢信，现场页面只展示结果，稳定不怕接口拥堵。</p>
-            <p>保留一个祝福生成器作为互动入口，既有 AI 特色，也不会影响主流程。</p>
+            <p>把这个链接做成二维码，放在小卡片、电子屏或推文里。</p>
+            <p>老师扫码输入姓名，选择最贴近自己的学科星，保存专属贺卡。</p>
+            <p>学生来不及写寄语也没关系，现场补一句话就能让祝福更像本人。</p>
           </div>
         </div>
       </section>
