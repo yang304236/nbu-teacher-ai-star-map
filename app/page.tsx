@@ -2,11 +2,9 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import {
-  BookOpenText,
   BrainCircuit,
   Download,
   MessageCircleHeart,
-  Search,
   Share2,
   Sparkles,
   Stars,
@@ -22,8 +20,8 @@ const teachers = [
     name: '启智星',
     title: '人工智能与数据科学',
     group: '无需提前收集名单',
-    x: 18,
-    y: 32,
+    x: 16,
+    y: 42,
     glow: 1.08,
     keywords: ['启发思考', '算法之光', '科研引路', '耐心答疑'],
     memory: '您把复杂的问题拆成清晰的路径，也把面对未知的勇气留给同学们。',
@@ -38,8 +36,8 @@ const teachers = [
     name: '信号星',
     title: '电子信息与通信工程',
     group: '无需提前收集名单',
-    x: 35,
-    y: 22,
+    x: 32,
+    y: 34,
     glow: 0.94,
     keywords: ['严谨细致', '工程直觉', '实验陪伴', '连接未来'],
     memory: '那些图像、波形、频谱和系统，在您的课堂里慢慢变成可理解的世界。',
@@ -54,8 +52,8 @@ const teachers = [
     name: '守护星',
     title: '网络空间安全',
     group: '无需提前收集名单',
-    x: 63,
-    y: 30,
+    x: 53,
+    y: 42,
     glow: 1.16,
     keywords: ['安全边界', '攻防思维', '实践导向', '温和坚定'],
     memory: '您让同学们懂得，技术不仅是能力，也是一份面对真实世界的责任。',
@@ -70,8 +68,8 @@ const teachers = [
     name: '创客星',
     title: '物联网与嵌入式系统',
     group: '无需提前收集名单',
-    x: 76,
-    y: 58,
+    x: 74,
+    y: 36,
     glow: 1.02,
     keywords: ['动手实践', '系统思维', '项目驱动', '温暖鼓励'],
     memory: '从一块开发板到一个完整系统，您陪同学们把想法落到真实运行的瞬间。',
@@ -86,8 +84,8 @@ const teachers = [
     name: '引路星',
     title: '信息科学与工程',
     group: '无需提前收集名单',
-    x: 51,
-    y: 69,
+    x: 84,
+    y: 58,
     glow: 0.9,
     keywords: ['循循善诱', '认真负责', '课堂温度', '长期陪伴'],
     memory: '您讲授的是知识，托举的是信心，留下的是一届又一届学生继续向前的底气。',
@@ -97,7 +95,72 @@ const teachers = [
       '学生现场补一句话，也可以让祝福更贴近本人。',
     ],
   },
+  {
+    id: 'math',
+    name: '数理星',
+    title: '数学基础与建模思维',
+    group: '无需提前收集名单',
+    x: 62,
+    y: 70,
+    glow: 0.86,
+    keywords: ['逻辑清晰', '抽象能力', '模型意识', '步步推演'],
+    memory: '您让公式不再停留在纸面，而成为同学们理解系统与世界的语言。',
+    wishes: [
+      '不需要提前征集，扫码后即可生成专属祝福。',
+      '老师输入姓名，选择学科星，就能保存自己的电子贺卡。',
+      '学生现场补一句话，也可以让祝福更贴近本人。',
+    ],
+  },
+  {
+    id: 'software',
+    name: '工程星',
+    title: '软件工程与系统开发',
+    group: '无需提前收集名单',
+    x: 39,
+    y: 72,
+    glow: 0.98,
+    keywords: ['架构意识', '协作开发', '代码质量', '项目落地'],
+    memory: '您把一个个需求、模块和细节串起来，让同学们看见工程真正运行的样子。',
+    wishes: [
+      '不需要提前征集，扫码后即可生成专属祝福。',
+      '老师输入姓名，选择学科星，就能保存自己的电子贺卡。',
+      '学生现场补一句话，也可以让祝福更贴近本人。',
+    ],
+  },
+  {
+    id: 'auto',
+    name: '智控星',
+    title: '自动化与智能感知',
+    group: '无需提前收集名单',
+    x: 20,
+    y: 66,
+    glow: 0.92,
+    keywords: ['感知世界', '控制之美', '实验精神', '持续探索'],
+    memory: '您让传感、控制和智能系统拥有了清楚的方向，也让同学们敢于动手验证想法。',
+    wishes: [
+      '不需要提前征集，扫码后即可生成专属祝福。',
+      '老师输入姓名，选择学科星，就能保存自己的电子贺卡。',
+      '学生现场补一句话，也可以让祝福更贴近本人。',
+    ],
+  },
 ];
+
+const ambientStars = [
+  [10, 24, 0.6],
+  [24, 27, 0.9],
+  [45, 28, 0.7],
+  [67, 24, 0.8],
+  [88, 29, 0.55],
+  [9, 54, 0.75],
+  [28, 56, 0.5],
+  [47, 59, 0.95],
+  [58, 54, 0.6],
+  [90, 72, 0.86],
+  [12, 80, 0.66],
+  [30, 82, 0.58],
+  [52, 84, 0.76],
+  [75, 79, 0.62],
+] as const;
 
 const styles = {
   真诚版: '您把知识讲进课堂，也把方向点进我们心里。',
@@ -308,7 +371,7 @@ export default function Home() {
         </div>
         <div className="hidden items-center gap-2 rounded-full border border-white/14 bg-white/8 px-3 py-2 text-sm text-cyan-50 shadow-sm backdrop-blur md:flex">
           <BrainCircuit className="h-4 w-4 text-[#f6d784]" />
-          AI 汇总学生心意
+          扫码生成专属贺卡
         </div>
       </header>
 
@@ -320,26 +383,7 @@ export default function Home() {
               2026 教师节 AI 谢师星图
             </div>
             <h1 className="text-3xl font-semibold leading-tight sm:text-5xl">师恩如星，智启未来</h1>
-            <p className="mt-4 max-w-xl text-base leading-7 text-cyan-50/82">
-              不必提前收集老师名单和学生寄语。扫码后输入姓名，选择一颗学科星，AI 即时生成祝福和可保存贺卡。
-            </p>
-            <div className="mt-5 grid max-w-[680px] gap-3 md:grid-cols-[220px_1fr]">
-              <Input
-                value={teacherName}
-                onChange={(event) => setTeacherName(event.target.value)}
-                className="h-11 border-white/15 bg-white/95 text-base text-[#10233b]"
-                aria-label="老师姓名"
-              />
-              <Tabs value={style} onValueChange={(value) => setStyle(value as keyof typeof styles)}>
-                <TabsList className="grid h-11 w-full grid-cols-4 bg-white/12">
-                  {Object.keys(styles).map((item) => (
-                    <TabsTrigger key={item} value={item} className="text-sm">
-                      {item}
-                    </TabsTrigger>
-                  ))}
-                </TabsList>
-              </Tabs>
-            </div>
+            <p className="mt-4 max-w-lg text-base leading-7 text-cyan-50/82">输入姓名，选一颗学科星，生成一张带校徽的教师节贺卡。</p>
           </div>
 
           <svg className="absolute inset-0 h-full w-full" role="img" aria-label="教师星图">
@@ -368,6 +412,17 @@ export default function Home() {
           </svg>
 
           <div className="absolute inset-0">
+            {ambientStars.map(([x, y, scale], index) => (
+              <span
+                key={index}
+                className="ambient-star"
+                style={{
+                  left: `${x}%`,
+                  top: `${y}%`,
+                  transform: `translate(-50%, -50%) scale(${scale})`,
+                }}
+              />
+            ))}
             {teachers.map((teacher) => (
               <button
                 key={teacher.id}
@@ -388,26 +443,30 @@ export default function Home() {
               </button>
             ))}
           </div>
-
-          <div className="absolute bottom-5 left-5 right-5 grid gap-3 sm:grid-cols-3">
-            {[
-              ['0 名单', '不用提前整理老师信息'],
-              ['0 征集', '学生寄语变成可选输入'],
-              ['1 二维码', '当天扫码即可生成贺卡'],
-            ].map(([label, text]) => (
-              <div key={label} className="rounded-[8px] border border-white/10 bg-black/18 p-4 backdrop-blur">
-                <p className="text-sm font-semibold text-[#f6d784]">{label}</p>
-                <p className="mt-1 text-sm text-cyan-50/75">{text}</p>
-              </div>
-            ))}
-          </div>
         </div>
 
         <aside className="grid gap-5">
           <section className="rounded-[8px] border border-white/14 bg-white/[.92] p-5 text-[#10233b] shadow-2xl shadow-black/20">
+            <div className="mb-5 grid gap-3">
+              <Input
+                value={teacherName}
+                onChange={(event) => setTeacherName(event.target.value)}
+                className="h-11 border-[#d8e7ed] bg-white text-base text-[#10233b]"
+                aria-label="老师姓名"
+              />
+              <Tabs value={style} onValueChange={(value) => setStyle(value as keyof typeof styles)}>
+                <TabsList className="grid h-11 w-full grid-cols-4 bg-[#edf7fa]">
+                  {Object.keys(styles).map((item) => (
+                    <TabsTrigger key={item} value={item} className="text-sm">
+                      {item}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </Tabs>
+            </div>
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-sm text-slate-500">{selected.group}</p>
+                <p className="text-sm text-slate-500">当前学科星</p>
                 <h2 className="mt-1 text-3xl font-semibold">{displayName}</h2>
                 <p className="mt-1 text-sm font-medium text-[#14779a]">{selected.name} · {selected.title}</p>
               </div>
@@ -432,13 +491,12 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="mt-4 space-y-2">
-              {selected.wishes.map((wish) => (
-                <p key={wish} className="rounded-[8px] bg-slate-100 px-3 py-2 text-sm text-slate-650">
-                  {wish}
-                </p>
-              ))}
-            </div>
+            <Textarea
+              value={studentLine}
+              onChange={(event) => setStudentLine(event.target.value)}
+              className="mt-4 min-h-20 border-[#d8e7ed] bg-white text-[#10233b]"
+              aria-label="可选补充一句祝福"
+            />
           </section>
 
           <section className="rounded-[8px] border border-[#f6d784]/24 bg-[#fff9e8] p-5 text-[#15233a] shadow-xl shadow-black/15">
@@ -472,52 +530,6 @@ export default function Home() {
         </aside>
       </section>
 
-      <section className="relative z-10 grid gap-5 px-5 pb-10 sm:px-8 lg:grid-cols-[1fr_430px] lg:px-12">
-        <div className="rounded-[8px] border border-white/12 bg-white/[.075] p-5 backdrop-blur">
-          <div className="mb-4 flex items-center gap-2">
-            <Search className="h-5 w-5 text-[#f6d784]" />
-            <h2 className="text-xl font-semibold">可选补一句话</h2>
-          </div>
-          <div className="grid gap-3 md:grid-cols-[220px_1fr]">
-            <Input
-              value={teacherName}
-              onChange={(event) => setTeacherName(event.target.value)}
-              className="border-white/15 bg-white/90 text-[#10233b]"
-              aria-label="老师姓名"
-            />
-            <Tabs value={style} onValueChange={(value) => setStyle(value as keyof typeof styles)}>
-              <TabsList className="grid w-full grid-cols-4 bg-white/10">
-                {Object.keys(styles).map((item) => (
-                  <TabsTrigger key={item} value={item} className="text-sm">
-                    {item}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </Tabs>
-          </div>
-          <Textarea
-            value={studentLine}
-            onChange={(event) => setStudentLine(event.target.value)}
-            className="mt-3 min-h-24 border-white/15 bg-white/90 text-[#10233b]"
-            aria-label="学生寄语"
-          />
-          <div className="mt-4 rounded-[8px] border border-white/12 bg-black/18 p-4 text-base leading-8 text-cyan-50">
-            {generatedGreeting}
-          </div>
-        </div>
-
-        <div className="rounded-[8px] border border-white/12 bg-white/[.075] p-5 backdrop-blur">
-          <div className="mb-4 flex items-center gap-2">
-            <BookOpenText className="h-5 w-5 text-[#f6d784]" />
-            <h2 className="text-xl font-semibold">当天执行</h2>
-          </div>
-          <div className="space-y-3 text-sm leading-7 text-cyan-50/82">
-            <p>把这个链接做成二维码，放在小卡片、电子屏或推文里。</p>
-            <p>老师扫码输入姓名，选择最贴近自己的学科星，保存专属贺卡。</p>
-            <p>学生来不及写寄语也没关系，现场补一句话就能让祝福更像本人。</p>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }

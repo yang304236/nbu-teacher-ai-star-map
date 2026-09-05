@@ -171,10 +171,10 @@ body {
 .star-node {
   position: absolute;
   display: grid;
-  width: clamp(128px, 14vw, 174px);
-  min-height: 92px;
+  width: clamp(92px, 9vw, 128px);
+  min-height: 76px;
   justify-items: center;
-  gap: 4px;
+  gap: 3px;
   border: 0;
   background: transparent;
   color: white;
@@ -183,8 +183,8 @@ body {
 }
 
 .star-node span {
-  height: 28px;
-  width: 28px;
+  height: 22px;
+  width: 22px;
   border-radius: 50%;
   background:
     radial-gradient(circle at 34% 30%, #fff8ce 0 20%, #f6d784 21% 52%, #d08c18 53% 100%);
@@ -194,14 +194,14 @@ body {
 }
 
 .star-node strong {
-  font-size: 1rem;
+  font-size: 0.92rem;
   line-height: 1.35;
 }
 
 .star-node em {
-  max-width: 150px;
+  max-width: 118px;
   color: rgba(207, 244, 255, 0.76);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-style: normal;
   line-height: 1.5;
 }
@@ -211,6 +211,16 @@ body {
     0 0 0 10px rgba(246, 215, 132, 0.18),
     0 0 46px rgba(120, 217, 255, 0.8),
     0 0 72px rgba(246, 215, 132, 0.7);
+}
+
+.ambient-star {
+  position: absolute;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff7ca 0 24%, #f6d784 25% 48%, transparent 60%);
+  box-shadow: 0 0 22px rgba(246, 215, 132, 0.68);
+  opacity: 0.78;
 }
 
 .teacher-card {
@@ -235,8 +245,8 @@ body {
 
 @media (max-width: 720px) {
   .star-node {
-    width: 110px;
-    min-height: 76px;
+    width: 82px;
+    min-height: 60px;
   }
 
   .star-node em {
