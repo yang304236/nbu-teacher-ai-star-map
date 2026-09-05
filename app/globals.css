@@ -182,43 +182,25 @@ body {
   text-align: center;
 }
 
-.star-node span {
-  position: relative;
-  height: 38px;
-  width: 54px;
-  border-radius: 0;
-  background:
-    linear-gradient(148deg, transparent 0 37%, rgba(246, 215, 132, 0.55) 38% 41%, transparent 42%),
-    linear-gradient(23deg, transparent 0 43%, rgba(120, 217, 255, 0.3) 44% 47%, transparent 48%);
-  box-shadow: none;
+.constellation-mark {
+  height: 50px;
+  width: 66px;
+  overflow: visible;
+  filter: drop-shadow(0 0 12px rgba(246, 215, 132, 0.42));
 }
 
-.star-node span::before {
-  content: "";
-  position: absolute;
-  left: 22px;
-  top: 12px;
-  height: 12px;
-  width: 12px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fff9cc 0 25%, #f6d784 26% 58%, #cf8a16 59% 100%);
-  box-shadow:
-    -20px 9px 0 -3px #ffe39a,
-    20px -6px 0 -4px #ffe39a,
-    10px 16px 0 -4px #ffd36a,
-    -8px -10px 0 -4px #fff1b2,
-    0 0 26px 7px rgba(246, 215, 132, 0.34);
+.constellation-mark polyline {
+  stroke: rgba(248, 250, 252, 0.82);
+  stroke-width: 1.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-.star-node span::after {
-  content: "";
-  position: absolute;
-  inset: 4px 5px;
-  border-top: 1px solid rgba(246, 215, 132, 0.55);
-  border-left: 1px solid rgba(120, 217, 255, 0.32);
-  transform: skewY(-20deg) rotate(-8deg);
-  transform-origin: center;
-  opacity: 0.72;
+.constellation-mark circle {
+  fill: #fff8d7;
+  stroke: rgba(246, 215, 132, 0.92);
+  stroke-width: 1;
+  filter: drop-shadow(0 0 5px rgba(246, 215, 132, 0.72));
 }
 
 .star-node strong {
@@ -226,7 +208,7 @@ body {
   line-height: 1.35;
 }
 
-.star-node.active span {
+.star-node.active .constellation-mark {
   filter:
     drop-shadow(0 0 18px rgba(120, 217, 255, 0.8))
     drop-shadow(0 0 24px rgba(246, 215, 132, 0.65));

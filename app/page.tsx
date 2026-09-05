@@ -17,7 +17,7 @@ import { Textarea } from '@/components/ui/textarea';
 const teachers = [
   {
     id: 'chen',
-    name: '启智星',
+    name: '斗星',
     title: '人工智能与数据科学',
     group: '无需提前收集名单',
     x: 16,
@@ -27,13 +27,13 @@ const teachers = [
     memory: '您把复杂的问题拆成清晰的路径，也把面对未知的勇气留给同学们。',
     wishes: [
       '不需要提前征集，扫码后即可生成专属祝福。',
-      '老师输入姓名，选择学科星，就能保存自己的电子贺卡。',
+      '老师输入姓名，选择星宿，就能保存自己的电子贺卡。',
       '学生现场补一句话，也可以让祝福更贴近本人。',
     ],
   },
   {
     id: 'zhang',
-    name: '信号星',
+    name: '牛星',
     title: '电子信息与通信工程',
     group: '无需提前收集名单',
     x: 32,
@@ -43,13 +43,13 @@ const teachers = [
     memory: '那些图像、波形、频谱和系统，在您的课堂里慢慢变成可理解的世界。',
     wishes: [
       '不需要提前征集，扫码后即可生成专属祝福。',
-      '老师输入姓名，选择学科星，就能保存自己的电子贺卡。',
+      '老师输入姓名，选择星宿，就能保存自己的电子贺卡。',
       '学生现场补一句话，也可以让祝福更贴近本人。',
     ],
   },
   {
     id: 'lin',
-    name: '守护星',
+    name: '女星',
     title: '网络空间安全',
     group: '无需提前收集名单',
     x: 53,
@@ -59,13 +59,13 @@ const teachers = [
     memory: '您让同学们懂得，技术不仅是能力，也是一份面对真实世界的责任。',
     wishes: [
       '不需要提前征集，扫码后即可生成专属祝福。',
-      '老师输入姓名，选择学科星，就能保存自己的电子贺卡。',
+      '老师输入姓名，选择星宿，就能保存自己的电子贺卡。',
       '学生现场补一句话，也可以让祝福更贴近本人。',
     ],
   },
   {
     id: 'wang',
-    name: '创客星',
+    name: '虚星',
     title: '物联网与嵌入式系统',
     group: '无需提前收集名单',
     x: 74,
@@ -75,13 +75,13 @@ const teachers = [
     memory: '从一块开发板到一个完整系统，您陪同学们把想法落到真实运行的瞬间。',
     wishes: [
       '不需要提前征集，扫码后即可生成专属祝福。',
-      '老师输入姓名，选择学科星，就能保存自己的电子贺卡。',
+      '老师输入姓名，选择星宿，就能保存自己的电子贺卡。',
       '学生现场补一句话，也可以让祝福更贴近本人。',
     ],
   },
   {
     id: 'li',
-    name: '引路星',
+    name: '危星',
     title: '信息科学与工程',
     group: '无需提前收集名单',
     x: 84,
@@ -91,13 +91,13 @@ const teachers = [
     memory: '您讲授的是知识，托举的是信心，留下的是一届又一届学生继续向前的底气。',
     wishes: [
       '不需要提前征集，扫码后即可生成专属祝福。',
-      '老师输入姓名，选择学科星，就能保存自己的电子贺卡。',
+      '老师输入姓名，选择星宿，就能保存自己的电子贺卡。',
       '学生现场补一句话，也可以让祝福更贴近本人。',
     ],
   },
   {
     id: 'math',
-    name: '数理星',
+    name: '室星',
     title: '数学基础与建模思维',
     group: '无需提前收集名单',
     x: 62,
@@ -107,13 +107,13 @@ const teachers = [
     memory: '您让公式不再停留在纸面，而成为同学们理解系统与世界的语言。',
     wishes: [
       '不需要提前征集，扫码后即可生成专属祝福。',
-      '老师输入姓名，选择学科星，就能保存自己的电子贺卡。',
+      '老师输入姓名，选择星宿，就能保存自己的电子贺卡。',
       '学生现场补一句话，也可以让祝福更贴近本人。',
     ],
   },
   {
     id: 'software',
-    name: '工程星',
+    name: '壁星',
     title: '软件工程与系统开发',
     group: '无需提前收集名单',
     x: 39,
@@ -123,13 +123,13 @@ const teachers = [
     memory: '您把一个个需求、模块和细节串起来，让同学们看见工程真正运行的样子。',
     wishes: [
       '不需要提前征集，扫码后即可生成专属祝福。',
-      '老师输入姓名，选择学科星，就能保存自己的电子贺卡。',
+      '老师输入姓名，选择星宿，就能保存自己的电子贺卡。',
       '学生现场补一句话，也可以让祝福更贴近本人。',
     ],
   },
   {
     id: 'auto',
-    name: '智控星',
+    name: '角星',
     title: '自动化与智能感知',
     group: '无需提前收集名单',
     x: 20,
@@ -139,7 +139,7 @@ const teachers = [
     memory: '您让传感、控制和智能系统拥有了清楚的方向，也让同学们敢于动手验证想法。',
     wishes: [
       '不需要提前征集，扫码后即可生成专属祝福。',
-      '老师输入姓名，选择学科星，就能保存自己的电子贺卡。',
+      '老师输入姓名，选择星宿，就能保存自己的电子贺卡。',
       '学生现场补一句话，也可以让祝福更贴近本人。',
     ],
   },
@@ -161,6 +161,59 @@ const ambientStars = [
   [52, 84, 0.76],
   [75, 79, 0.62],
 ] as const;
+
+const constellationShapes = {
+  chen: {
+    points: [[12, 30], [22, 18], [34, 22], [44, 12], [54, 24], [47, 38], [30, 40]],
+    paths: [[0, 1, 2, 3, 4], [2, 5, 6, 0]],
+  },
+  zhang: {
+    points: [[10, 22], [22, 18], [31, 30], [43, 26], [56, 34], [45, 42]],
+    paths: [[0, 1, 2, 3, 4], [3, 5]],
+  },
+  lin: {
+    points: [[16, 18], [30, 14], [45, 19], [52, 34], [38, 42], [22, 36]],
+    paths: [[0, 1, 2, 3, 4, 5, 0]],
+  },
+  wang: {
+    points: [[12, 36], [24, 24], [36, 29], [46, 14], [58, 22], [50, 38], [34, 43]],
+    paths: [[0, 1, 2, 3, 4], [2, 5, 6]],
+  },
+  li: {
+    points: [[15, 16], [27, 27], [20, 42], [38, 38], [50, 26], [58, 39]],
+    paths: [[0, 1, 2, 3, 4, 5], [1, 4]],
+  },
+  math: {
+    points: [[12, 24], [26, 14], [40, 18], [55, 28], [42, 40], [24, 38]],
+    paths: [[0, 1, 2, 3], [1, 5, 4, 3]],
+  },
+  software: {
+    points: [[10, 32], [22, 18], [36, 16], [52, 24], [58, 38], [42, 44], [25, 41]],
+    paths: [[0, 1, 2, 3, 4, 5, 6, 0], [2, 5]],
+  },
+  auto: {
+    points: [[12, 20], [25, 30], [39, 21], [54, 30], [46, 43], [28, 42]],
+    paths: [[0, 1, 2, 3], [1, 5, 4, 3]],
+  },
+} as const;
+
+function ConstellationMark({ id }: { id: keyof typeof constellationShapes }) {
+  const shape = constellationShapes[id];
+  return (
+    <svg className="constellation-mark" viewBox="0 0 70 56" aria-hidden="true">
+      {shape.paths.map((path, index) => (
+        <polyline
+          key={index}
+          points={path.map((pointIndex) => shape.points[pointIndex].join(',')).join(' ')}
+          fill="none"
+        />
+      ))}
+      {shape.points.map(([x, y], index) => (
+        <circle key={index} cx={x} cy={y} r={index === 0 ? 3.6 : 2.6} />
+      ))}
+    </svg>
+  );
+}
 
 const styles = {
   真诚版: '您把知识讲进课堂，也把方向点进我们心里。',
@@ -226,7 +279,7 @@ export default function Home() {
   const downloadCard = async () => {
     const logo = await loadLogoDataUri();
     const safeName = escapeXml(displayName);
-    const safeTitle = escapeXml(selected.title);
+    const safeTitle = escapeXml(selected.name);
     const safeGreeting = escapeXml(`愿每一次授课都被记得，每一份耐心都被看见。教师节快乐！`);
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1440" viewBox="0 0 1080 1440">
       <defs>
@@ -262,7 +315,7 @@ export default function Home() {
   };
 
   const shareGreeting = async () => {
-    const text = `${displayName}的教师节 AI 谢师星图：${generatedGreeting}`;
+    const text = `${displayName}的教师节谢师星图：${generatedGreeting}`;
     if (navigator.share) {
       await navigator.share({ title: '师恩如星，智启未来', text });
       setNotice('已打开系统分享');
@@ -384,7 +437,7 @@ export default function Home() {
               2026 教师节谢师星图
             </div>
             <h1 className="text-3xl font-semibold leading-tight sm:text-5xl">师恩如星，智启未来</h1>
-            <p className="mt-4 max-w-lg text-base leading-7 text-cyan-50/82">输入姓名，选一颗学科星，生成一张带校徽的教师节贺卡。</p>
+            <p className="mt-4 max-w-lg text-base leading-7 text-cyan-50/82">输入姓名，选一颗星宿，生成一张带校徽的教师节贺卡。</p>
           </div>
 
           <svg className="absolute inset-0 h-full w-full" role="img" aria-label="教师星图">
@@ -438,7 +491,7 @@ export default function Home() {
                 }}
                 aria-label={`选择${teacher.name}`}
               >
-                <span />
+                <ConstellationMark id={teacher.id as keyof typeof constellationShapes} />
                 <strong>{teacher.name}</strong>
               </button>
             ))}
@@ -466,9 +519,9 @@ export default function Home() {
             </div>
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-sm text-slate-500">当前学科星</p>
+                <p className="text-sm text-slate-500">当前星宿</p>
                 <h2 className="mt-1 text-3xl font-semibold">{displayName}</h2>
-                <p className="mt-1 text-sm font-medium text-[#14779a]">{selected.name} · {selected.title}</p>
+                <p className="mt-1 text-sm font-medium text-[#14779a]">{selected.name}</p>
               </div>
               <Sparkles className="h-6 w-6 text-[#ca941f]" />
             </div>
