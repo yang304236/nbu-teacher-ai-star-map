@@ -17,8 +17,7 @@ import { Textarea } from '@/components/ui/textarea';
 const teachers = [
   {
     id: 'chen',
-    name: '斗星',
-    title: '人工智能与数据科学',
+    name: '斗宿',
     group: '无需提前收集名单',
     x: 16,
     y: 42,
@@ -33,8 +32,7 @@ const teachers = [
   },
   {
     id: 'zhang',
-    name: '牛星',
-    title: '电子信息与通信工程',
+    name: '牛宿',
     group: '无需提前收集名单',
     x: 32,
     y: 34,
@@ -49,8 +47,7 @@ const teachers = [
   },
   {
     id: 'lin',
-    name: '女星',
-    title: '网络空间安全',
+    name: '女宿',
     group: '无需提前收集名单',
     x: 53,
     y: 42,
@@ -65,8 +62,7 @@ const teachers = [
   },
   {
     id: 'wang',
-    name: '虚星',
-    title: '物联网与嵌入式系统',
+    name: '虚宿',
     group: '无需提前收集名单',
     x: 74,
     y: 36,
@@ -81,8 +77,7 @@ const teachers = [
   },
   {
     id: 'li',
-    name: '危星',
-    title: '信息科学与工程',
+    name: '危宿',
     group: '无需提前收集名单',
     x: 84,
     y: 58,
@@ -97,8 +92,7 @@ const teachers = [
   },
   {
     id: 'math',
-    name: '室星',
-    title: '数学基础与建模思维',
+    name: '室宿',
     group: '无需提前收集名单',
     x: 62,
     y: 70,
@@ -113,8 +107,7 @@ const teachers = [
   },
   {
     id: 'software',
-    name: '壁星',
-    title: '软件工程与系统开发',
+    name: '壁宿',
     group: '无需提前收集名单',
     x: 39,
     y: 72,
@@ -129,8 +122,7 @@ const teachers = [
   },
   {
     id: 'auto',
-    name: '角星',
-    title: '自动化与智能感知',
+    name: '角宿',
     group: '无需提前收集名单',
     x: 20,
     y: 66,
