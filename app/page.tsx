@@ -240,16 +240,17 @@ export default function Home() {
       <circle cx="880" cy="180" r="210" fill="#f6d784" opacity=".16"/>
       <circle cx="180" cy="1160" r="280" fill="#78d9ff" opacity=".12"/>
       <image href="${logo}" x="90" y="92" width="118" height="118"/>
-      <text x="232" y="142" fill="#ffe9a8" font-size="34" font-family="Microsoft YaHei, Arial" font-weight="700">宁波大学信息科学与工程学院</text>
-      <text x="232" y="190" fill="#d6f5ff" font-size="23" font-family="Arial">Faculty of Electrical Engineering and Computer Science</text>
+      <text x="232" y="148" fill="#ffe9a8" font-size="38" font-family="Microsoft YaHei, Arial" font-weight="700">宁波大学人工智能学院</text>
       <text x="90" y="445" fill="#ffffff" font-size="58" font-family="Microsoft YaHei, Arial" font-weight="700">师恩如星，智启未来</text>
       <text x="90" y="570" fill="#d6f5ff" font-size="34" font-family="Microsoft YaHei, Arial">献给</text>
       <text x="90" y="685" fill="#ffe9a8" font-size="96" font-family="Microsoft YaHei, Arial" font-weight="800">${safeName}</text>
       <text x="90" y="755" fill="#d6f5ff" font-size="34" font-family="Microsoft YaHei, Arial">${safeTitle}</text>
-      <rect x="90" y="850" width="900" height="278" rx="18" fill="#ffffff" opacity=".92"/>
+      <rect x="90" y="850" width="900" height="310" rx="18" fill="#ffffff" opacity=".92"/>
       <text x="140" y="930" fill="#10233b" font-size="42" font-family="Microsoft YaHei, Arial" font-weight="700">教师节快乐</text>
-      <text x="140" y="1010" fill="#40536a" font-size="34" font-family="Microsoft YaHei, Arial">${safeGreeting}</text>
-      <text x="90" y="1270" fill="#fff5cf" font-size="28" font-family="Microsoft YaHei, Arial">2026 教师节 AI 谢师星图 · 零收集应急版</text>
+      <foreignObject x="140" y="965" width="800" height="150">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="font-size:32px;line-height:1.65;color:#40536a;font-family:'Microsoft YaHei',Arial;word-break:break-all;">${safeGreeting}</div>
+      </foreignObject>
+      <text x="90" y="1270" fill="#fff5cf" font-size="28" font-family="Microsoft YaHei, Arial">2026 教师节谢师星图</text>
     </svg>`;
     const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
     const link = document.createElement('a');
@@ -366,7 +367,7 @@ export default function Home() {
           </div>
           <div className="min-w-0">
             <p className="text-sm font-semibold tracking-wide text-[#f6d784]">宁波大学</p>
-            <p className="truncate text-xs text-cyan-100/80 sm:text-sm">信息科学与工程学院教师节献礼</p>
+            <p className="truncate text-xs text-cyan-100/80 sm:text-sm">人工智能学院教师节献礼</p>
           </div>
         </div>
         <div className="hidden items-center gap-2 rounded-full border border-white/14 bg-white/8 px-3 py-2 text-sm text-cyan-50 shadow-sm backdrop-blur md:flex">
@@ -380,7 +381,7 @@ export default function Home() {
           <div className="absolute left-6 top-6 max-w-[620px]">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#f6d784]/35 bg-[#f6d784]/12 px-3 py-1.5 text-sm text-[#ffe9a8]">
               <Stars className="h-4 w-4" />
-              2026 教师节 AI 谢师星图
+              2026 教师节谢师星图
             </div>
             <h1 className="text-3xl font-semibold leading-tight sm:text-5xl">师恩如星，智启未来</h1>
             <p className="mt-4 max-w-lg text-base leading-7 text-cyan-50/82">输入姓名，选一颗学科星，生成一张带校徽的教师节贺卡。</p>
@@ -439,7 +440,6 @@ export default function Home() {
               >
                 <span />
                 <strong>{teacher.name}</strong>
-                <em>{teacher.title}</em>
               </button>
             ))}
           </div>
@@ -504,8 +504,7 @@ export default function Home() {
               <div className="flex items-center gap-3">
                 <img src="/brand/nbu-logo.png" alt="宁波大学校徽" className="h-12 w-12 object-contain" />
                 <div>
-                  <p className="text-sm font-semibold text-[#7d5a14]">宁波大学信息科学与工程学院</p>
-                  <p className="text-xs text-slate-500">Faculty of Electrical Engineering and Computer Science</p>
+                  <p className="text-sm font-semibold text-[#7d5a14]">宁波大学人工智能学院</p>
                 </div>
               </div>
               <div className="mt-6">

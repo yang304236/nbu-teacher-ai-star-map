@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: '师恩如星，智启未来',
-  description: '宁波大学信息科学与工程学院 2026 教师节 AI 谢师星图',
+  description: '宁波大学人工智能学院 2026 教师节谢师星图',
 };
 
 export default function RootLayout({

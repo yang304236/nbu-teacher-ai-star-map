@@ -174,7 +174,7 @@ body {
   width: clamp(92px, 9vw, 128px);
   min-height: 76px;
   justify-items: center;
-  gap: 3px;
+  gap: 5px;
   border: 0;
   background: transparent;
   color: white;
@@ -183,14 +183,42 @@ body {
 }
 
 .star-node span {
-  height: 22px;
-  width: 22px;
-  border-radius: 50%;
+  position: relative;
+  height: 38px;
+  width: 54px;
+  border-radius: 0;
   background:
-    radial-gradient(circle at 34% 30%, #fff8ce 0 20%, #f6d784 21% 52%, #d08c18 53% 100%);
+    linear-gradient(148deg, transparent 0 37%, rgba(246, 215, 132, 0.55) 38% 41%, transparent 42%),
+    linear-gradient(23deg, transparent 0 43%, rgba(120, 217, 255, 0.3) 44% 47%, transparent 48%);
+  box-shadow: none;
+}
+
+.star-node span::before {
+  content: "";
+  position: absolute;
+  left: 22px;
+  top: 12px;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff9cc 0 25%, #f6d784 26% 58%, #cf8a16 59% 100%);
   box-shadow:
-    0 0 0 8px rgba(246, 215, 132, 0.1),
-    0 0 34px rgba(246, 215, 132, 0.75);
+    -20px 9px 0 -3px #ffe39a,
+    20px -6px 0 -4px #ffe39a,
+    10px 16px 0 -4px #ffd36a,
+    -8px -10px 0 -4px #fff1b2,
+    0 0 26px 7px rgba(246, 215, 132, 0.34);
+}
+
+.star-node span::after {
+  content: "";
+  position: absolute;
+  inset: 4px 5px;
+  border-top: 1px solid rgba(246, 215, 132, 0.55);
+  border-left: 1px solid rgba(120, 217, 255, 0.32);
+  transform: skewY(-20deg) rotate(-8deg);
+  transform-origin: center;
+  opacity: 0.72;
 }
 
 .star-node strong {
@@ -198,19 +226,10 @@ body {
   line-height: 1.35;
 }
 
-.star-node em {
-  max-width: 118px;
-  color: rgba(207, 244, 255, 0.76);
-  font-size: 0.72rem;
-  font-style: normal;
-  line-height: 1.5;
-}
-
 .star-node.active span {
-  box-shadow:
-    0 0 0 10px rgba(246, 215, 132, 0.18),
-    0 0 46px rgba(120, 217, 255, 0.8),
-    0 0 72px rgba(246, 215, 132, 0.7);
+  filter:
+    drop-shadow(0 0 18px rgba(120, 217, 255, 0.8))
+    drop-shadow(0 0 24px rgba(246, 215, 132, 0.65));
 }
 
 .ambient-star {
@@ -249,7 +268,4 @@ body {
     min-height: 60px;
   }
 
-  .star-node em {
-    display: none;
-  }
 }
