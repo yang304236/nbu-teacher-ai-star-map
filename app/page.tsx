@@ -17,7 +17,7 @@ import { Textarea } from '@/components/ui/textarea';
 const teachers = [
   {
     id: 'chen',
-    name: '斗宿',
+    name: '学术星',
     group: '无需提前收集名单',
     x: 16,
     y: 42,
@@ -32,7 +32,7 @@ const teachers = [
   },
   {
     id: 'zhang',
-    name: '牛宿',
+    name: '启智星',
     group: '无需提前收集名单',
     x: 32,
     y: 34,
@@ -47,7 +47,7 @@ const teachers = [
   },
   {
     id: 'lin',
-    name: '女宿',
+    name: '信号星',
     group: '无需提前收集名单',
     x: 53,
     y: 42,
@@ -62,7 +62,7 @@ const teachers = [
   },
   {
     id: 'wang',
-    name: '虚宿',
+    name: '守护星',
     group: '无需提前收集名单',
     x: 74,
     y: 36,
@@ -77,7 +77,7 @@ const teachers = [
   },
   {
     id: 'li',
-    name: '危宿',
+    name: '创客星',
     group: '无需提前收集名单',
     x: 84,
     y: 58,
@@ -92,7 +92,7 @@ const teachers = [
   },
   {
     id: 'math',
-    name: '室宿',
+    name: '引路星',
     group: '无需提前收集名单',
     x: 62,
     y: 70,
@@ -107,7 +107,7 @@ const teachers = [
   },
   {
     id: 'software',
-    name: '壁宿',
+    name: '工程星',
     group: '无需提前收集名单',
     x: 39,
     y: 72,
@@ -122,7 +122,7 @@ const teachers = [
   },
   {
     id: 'auto',
-    name: '角宿',
+    name: '智控星',
     group: '无需提前收集名单',
     x: 20,
     y: 66,
