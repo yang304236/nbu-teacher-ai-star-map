@@ -291,8 +291,8 @@ export default function Home() {
   }, [style, studentLine, displayName, selected.memory]);
 
   const downloadCard = async () => {
-    const nbuLogo = await loadImageDataUri('/brand/nbu-logo-white.png');
-    const aiLogo = await loadImageDataUri('/brand/ai-logo-white.png');
+    const nbuLogo = await loadImageDataUri('/brand/nbu-logo.png');
+    const aiLogo = await loadImageDataUri('/brand/ai-logo.png');
     const safeName = escapeXml(displayName);
     const safeTitle = escapeXml(selected.name);
     const safeGreeting = escapeXml(`愿每一次授课都被记得，每一份耐心都被看见。教师节快乐！`);
@@ -315,8 +315,8 @@ export default function Home() {
       <circle cx="880" cy="180" r="210" fill="#f6d784" opacity=".14"/>
       <circle cx="180" cy="1160" r="280" fill="#78d9ff" opacity=".11"/>
       <rect x="72" y="70" width="936" height="155" rx="28" fill="#ffffff" opacity=".1" stroke="#ffffff" stroke-opacity=".18"/>
-      <circle cx="152" cy="147" r="52" fill="#10233b" stroke="#ffffff" stroke-opacity=".62"/>
-      <circle cx="274" cy="147" r="52" fill="#10233b" stroke="#ffffff" stroke-opacity=".62"/>
+      <circle cx="152" cy="147" r="52" fill="#ffffff" stroke="#ffffff" stroke-opacity=".88"/>
+      <circle cx="274" cy="147" r="52" fill="#ffffff" stroke="#ffffff" stroke-opacity=".88"/>
       <image href="${nbuLogo}" x="108" y="103" width="88" height="88"/>
       <image href="${aiLogo}" x="225" y="98" width="98" height="98"/>
       <text x="368" y="145" fill="#ffe9a8" font-size="36" font-family="Microsoft YaHei, Arial" font-weight="700">宁波大学人工智能学院</text>
@@ -446,10 +446,10 @@ export default function Home() {
         <div className="flex min-w-0 items-center gap-3">
           <div className="brand-mark-row">
             <div className="logo-seal" aria-label="宁波大学校徽">
-              <img src="/brand/nbu-logo-white.png" alt="宁波大学校徽" />
+              <img src="/brand/nbu-logo.png" alt="宁波大学校徽" />
             </div>
             <div className="ai-logo-seal" aria-label="宁波大学人工智能学院logo">
-              <img src="/brand/ai-logo-white.png" alt="宁波大学人工智能学院logo" />
+              <img src="/brand/ai-logo.png" alt="宁波大学人工智能学院logo" />
             </div>
           </div>
           <div className="min-w-0">
@@ -538,7 +538,7 @@ export default function Home() {
         </div>
 
         <aside className="grid gap-5">
-          <section className="rounded-[8px] border border-white/14 bg-white/[.92] p-5 text-[#10233b] shadow-2xl shadow-black/20">
+          <section className="star-detail-card rounded-[8px] border border-white/14 bg-white/[.92] p-5 text-[#10233b] shadow-2xl shadow-black/20">
             <div className="mb-5 grid gap-3">
               <Input
                 value={teacherName}
@@ -577,7 +577,7 @@ export default function Home() {
                   ))}
                 </div>
 
-                <div className="mt-5 rounded-[8px] border border-[#d8e7ed] bg-[#f8fcfd] p-4">
+                <div className="greeting-panel mt-5 rounded-[8px] border border-[#d8e7ed] bg-[#f8fcfd] p-4">
                   <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-[#0d5b78]">
                     <MessageCircleHeart className="h-4 w-4" />
                     同学们眼中的您
@@ -604,10 +604,10 @@ export default function Home() {
             <div className="teacher-card" style={{ '--card-accent': selected.color } as CSSProperties}>
               <div className="flex items-center gap-3">
                 <span className="card-logo-seal">
-                  <img src="/brand/nbu-logo-white.png" alt="宁波大学校徽" />
+                  <img src="/brand/nbu-logo.png" alt="宁波大学校徽" />
                 </span>
                 <span className="card-logo-seal ai">
-                  <img src="/brand/ai-logo-white.png" alt="宁波大学人工智能学院logo" />
+                  <img src="/brand/ai-logo.png" alt="宁波大学人工智能学院logo" />
                 </span>
                 <div>
                   <p className="text-sm font-semibold text-[#7d5a14]">宁波大学人工智能学院</p>
