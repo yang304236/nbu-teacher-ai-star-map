@@ -547,9 +547,9 @@ export default function Home() {
                 aria-label="老师姓名"
               />
               <Tabs value={style} onValueChange={(value) => setStyle(value as keyof typeof styles)}>
-                <TabsList className="grid h-11 w-full grid-cols-4 bg-[#edf7fa]">
+                <TabsList className="version-tabs grid h-11 w-full grid-cols-4">
                   {Object.keys(styles).map((item) => (
-                    <TabsTrigger key={item} value={item} className="text-sm">
+                    <TabsTrigger key={item} value={item} className="version-tab text-sm">
                       {item}
                     </TabsTrigger>
                   ))}

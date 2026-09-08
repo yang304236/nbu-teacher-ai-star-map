@@ -308,6 +308,30 @@ body {
   font-size: 0.95rem;
 }
 
+.version-tabs {
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgba(13, 91, 120, 0.16);
+  background: #d7edf4;
+}
+
+.version-tab {
+  color: #0d5b78 !important;
+  background: rgba(255, 255, 255, 0.7);
+  font-weight: 700;
+}
+
+.version-tab:hover {
+  color: #073d56 !important;
+  background: #ffffff;
+}
+
+.version-tab[data-active] {
+  color: #ffffff !important;
+  background: #07172d;
+  box-shadow: 0 6px 14px rgba(7, 23, 45, 0.16);
+}
+
 @media (max-width: 720px) {
   .star-node {
     width: 82px;
