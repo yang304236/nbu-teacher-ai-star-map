@@ -181,11 +181,6 @@ body {
   object-fit: contain;
 }
 
-.ai-logo-seal img {
-  height: 49px;
-  width: 49px;
-}
-
 .card-logo-seal {
   display: grid;
   height: 48px;
@@ -201,11 +196,6 @@ body {
   height: 40px;
   width: 40px;
   object-fit: contain;
-}
-
-.card-logo-seal.ai img {
-  height: 45px;
-  width: 45px;
 }
 
 .star-node {

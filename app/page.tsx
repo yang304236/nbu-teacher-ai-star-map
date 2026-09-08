@@ -318,7 +318,7 @@ export default function Home() {
       <circle cx="152" cy="147" r="52" fill="#ffffff" stroke="#ffffff" stroke-opacity=".88"/>
       <circle cx="274" cy="147" r="52" fill="#ffffff" stroke="#ffffff" stroke-opacity=".88"/>
       <image href="${nbuLogo}" x="108" y="103" width="88" height="88"/>
-      <image href="${aiLogo}" x="225" y="98" width="98" height="98"/>
+      <image href="${aiLogo}" x="230" y="103" width="88" height="88"/>
       <text x="368" y="145" fill="#ffe9a8" font-size="36" font-family="Microsoft YaHei, Arial" font-weight="700">宁波大学人工智能学院</text>
       <text x="368" y="190" fill="#d6f5ff" font-size="22" font-family="Microsoft YaHei, Arial">School of Artificial Intelligence, Ningbo University</text>
       <text x="90" y="445" fill="#ffffff" font-size="58" font-family="Microsoft YaHei, Arial" font-weight="700">师恩如星，智启未来</text>
