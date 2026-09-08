@@ -163,27 +163,47 @@ body {
   height: 52px;
   width: 52px;
   place-items: center;
-  border: 1px solid rgba(246, 215, 132, 0.42);
+  flex: 0 0 52px;
+  border: 1px solid rgba(255, 255, 255, 0.58);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
-}
-
-.ai-logo-seal {
-  border-radius: 8px;
-  background: rgba(7, 23, 45, 0.72);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 10px 30px rgba(0, 0, 0, 0.22);
 }
 
 .logo-seal img,
 .ai-logo-seal img {
-  height: 42px;
-  width: 42px;
+  display: block;
+  height: 44px;
+  width: 44px;
   object-fit: contain;
 }
 
 .ai-logo-seal img {
-  height: 46px;
-  width: 46px;
+  height: 49px;
+  width: 49px;
+}
+
+.card-logo-seal {
+  display: grid;
+  height: 48px;
+  width: 48px;
+  flex: 0 0 48px;
+  place-items: center;
+  border-radius: 50%;
+  background: #10233b;
+}
+
+.card-logo-seal img {
+  height: 40px;
+  width: 40px;
+  object-fit: contain;
+}
+
+.card-logo-seal.ai img {
+  height: 45px;
+  width: 45px;
 }
 
 .star-node {
