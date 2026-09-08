@@ -151,7 +151,14 @@ body {
   animation: drift 24s linear infinite;
 }
 
-.logo-seal {
+.brand-mark-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-seal,
+.ai-logo-seal {
   display: grid;
   height: 52px;
   width: 52px;
@@ -162,10 +169,21 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
 }
 
-.logo-seal img {
+.ai-logo-seal {
+  border-radius: 8px;
+  background: rgba(7, 23, 45, 0.72);
+}
+
+.logo-seal img,
+.ai-logo-seal img {
   height: 42px;
   width: 42px;
   object-fit: contain;
+}
+
+.ai-logo-seal img {
+  height: 46px;
+  width: 46px;
 }
 
 .star-node {
@@ -186,11 +204,12 @@ body {
   height: 50px;
   width: 66px;
   overflow: visible;
-  filter: drop-shadow(0 0 12px rgba(246, 215, 132, 0.42));
+  color: var(--star-color, #f6d784);
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--star-color, #f6d784) 55%, transparent));
 }
 
 .constellation-mark polyline {
-  stroke: rgba(248, 250, 252, 0.82);
+  stroke: color-mix(in srgb, var(--star-color, #f6d784) 72%, white);
   stroke-width: 1.45;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -198,9 +217,9 @@ body {
 
 .constellation-mark circle {
   fill: #fff8d7;
-  stroke: rgba(246, 215, 132, 0.92);
+  stroke: var(--star-color, #f6d784);
   stroke-width: 1;
-  filter: drop-shadow(0 0 5px rgba(246, 215, 132, 0.72));
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--star-color, #f6d784) 75%, transparent));
 }
 
 .star-node strong {
@@ -210,8 +229,12 @@ body {
 
 .star-node.active .constellation-mark {
   filter:
-    drop-shadow(0 0 18px rgba(120, 217, 255, 0.8))
-    drop-shadow(0 0 24px rgba(246, 215, 132, 0.65));
+    drop-shadow(0 0 18px color-mix(in srgb, var(--star-color, #f6d784) 82%, transparent))
+    drop-shadow(0 0 24px rgba(255, 255, 255, 0.28));
+}
+
+.star-node.active strong {
+  color: color-mix(in srgb, var(--star-color, #f6d784) 82%, white);
 }
 
 .ambient-star {
@@ -226,13 +249,39 @@ body {
 
 .teacher-card {
   overflow: hidden;
+  position: relative;
   min-height: 250px;
   border: 1px solid rgba(125, 90, 20, 0.18);
   border-radius: 8px;
   padding: 18px;
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(255, 249, 232, 0.92)),
-    radial-gradient(circle at 86% 18%, rgba(13, 120, 151, 0.2), transparent 28%);
+    radial-gradient(circle at 86% 18%, color-mix(in srgb, var(--card-accent, #f6d784) 28%, transparent), transparent 30%);
+}
+
+.teacher-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 7px;
+  background: var(--card-accent, #f6d784);
+}
+
+.star-detail-empty {
+  display: grid;
+  min-height: 228px;
+  place-items: center;
+  gap: 12px;
+  border: 1px dashed rgba(13, 91, 120, 0.22);
+  border-radius: 8px;
+  background: rgba(248, 252, 253, 0.72);
+  color: #557086;
+  text-align: center;
+}
+
+.star-detail-empty p {
+  margin: 0;
+  font-size: 0.95rem;
 }
 
 @keyframes drift {

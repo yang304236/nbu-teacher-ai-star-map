@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { type CSSProperties, useEffect, useMemo, useState } from 'react';
 import {
   BrainCircuit,
   Download,
@@ -18,6 +18,7 @@ const teachers = [
   {
     id: 'chen',
     name: '学术星',
+    color: '#f6d784',
     group: '无需提前收集名单',
     x: 16,
     y: 42,
@@ -33,6 +34,7 @@ const teachers = [
   {
     id: 'zhang',
     name: '启智星',
+    color: '#78d9ff',
     group: '无需提前收集名单',
     x: 32,
     y: 34,
@@ -48,6 +50,7 @@ const teachers = [
   {
     id: 'lin',
     name: '信号星',
+    color: '#a7f3d0',
     group: '无需提前收集名单',
     x: 53,
     y: 42,
@@ -63,6 +66,7 @@ const teachers = [
   {
     id: 'wang',
     name: '守护星',
+    color: '#c4b5fd',
     group: '无需提前收集名单',
     x: 74,
     y: 36,
@@ -78,6 +82,7 @@ const teachers = [
   {
     id: 'li',
     name: '创客星',
+    color: '#fb923c',
     group: '无需提前收集名单',
     x: 84,
     y: 58,
@@ -93,6 +98,7 @@ const teachers = [
   {
     id: 'math',
     name: '引路星',
+    color: '#f9a8d4',
     group: '无需提前收集名单',
     x: 62,
     y: 70,
@@ -108,6 +114,7 @@ const teachers = [
   {
     id: 'software',
     name: '工程星',
+    color: '#93c5fd',
     group: '无需提前收集名单',
     x: 39,
     y: 72,
@@ -123,6 +130,7 @@ const teachers = [
   {
     id: 'auto',
     name: '智控星',
+    color: '#fca5a5',
     group: '无需提前收集名单',
     x: 20,
     y: 66,
@@ -207,6 +215,17 @@ function ConstellationMark({ id }: { id: keyof typeof constellationShapes }) {
   );
 }
 
+function constellationCardMarkup(id: keyof typeof constellationShapes, color: string) {
+  const shape = constellationShapes[id];
+  const lines = shape.paths
+    .map((path) => `<polyline points="${path.map((pointIndex) => shape.points[pointIndex].join(',')).join(' ')}" fill="none" stroke="${color}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".86"/>`)
+    .join('');
+  const points = shape.points
+    .map(([x, y], index) => `<circle cx="${x}" cy="${y}" r="${index === 0 ? 7 : 5}" fill="#fff8d7" stroke="${color}" stroke-width="3"/>`)
+    .join('');
+  return `<g transform="translate(760 525) scale(2.2)">${lines}${points}</g>`;
+}
+
 const styles = {
   真诚版: '您把知识讲进课堂，也把方向点进我们心里。',
   诗意版: '愿一束星光越过课桌，替我们向您道一声感谢。',
@@ -222,8 +241,8 @@ function escapeXml(value: string) {
     .replace(/"/g, '&quot;');
 }
 
-async function loadLogoDataUri() {
-  const response = await fetch('/brand/nbu-logo.png');
+async function loadImageDataUri(src: string) {
+  const response = await fetch(src);
   const blob = await response.blob();
   return await new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
@@ -255,12 +274,15 @@ declare global {
 }
 
 export default function Home() {
-  const [selectedId, setSelectedId] = useState(teachers[0].id);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [style, setStyle] = useState<keyof typeof styles>('真诚版');
   const [studentLine, setStudentLine] = useState('不用提前收集寄语，也想把同学们共同的感谢送到您身边。');
   const [teacherName, setTeacherName] = useState('老师');
   const [notice, setNotice] = useState('');
-  const selected = teachers.find((teacher) => teacher.id === selectedId) ?? teachers[0];
+  const activeId = hoveredId ?? selectedId;
+  const activeTeacher = teachers.find((teacher) => teacher.id === activeId) ?? null;
+  const selected = activeTeacher ?? teachers[0];
   const displayName = teacherName.trim() || '老师';
 
   const generatedGreeting = useMemo(() => {
@@ -269,28 +291,41 @@ export default function Home() {
   }, [style, studentLine, displayName, selected.memory]);
 
   const downloadCard = async () => {
-    const logo = await loadLogoDataUri();
+    const nbuLogo = await loadImageDataUri('/brand/nbu-logo.png');
+    const aiLogo = await loadImageDataUri('/brand/ai-logo.png');
     const safeName = escapeXml(displayName);
     const safeTitle = escapeXml(selected.name);
     const safeGreeting = escapeXml(`愿每一次授课都被记得，每一份耐心都被看见。教师节快乐！`);
+    const starColor = selected.color;
+    const constellation = constellationCardMarkup(selected.id as keyof typeof constellationShapes, starColor);
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1440" viewBox="0 0 1080 1440">
       <defs>
         <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
           <stop offset="0%" stop-color="#07172d"/>
-          <stop offset="55%" stop-color="#0d7897"/>
+          <stop offset="58%" stop-color="#0d7897"/>
           <stop offset="100%" stop-color="#fff3c0"/>
         </linearGradient>
+        <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="${starColor}" stop-opacity=".42"/>
+          <stop offset="100%" stop-color="${starColor}" stop-opacity="0"/>
+        </radialGradient>
       </defs>
       <rect width="1080" height="1440" fill="url(#bg)"/>
-      <circle cx="880" cy="180" r="210" fill="#f6d784" opacity=".16"/>
-      <circle cx="180" cy="1160" r="280" fill="#78d9ff" opacity=".12"/>
-      <image href="${logo}" x="90" y="92" width="118" height="118"/>
-      <text x="232" y="148" fill="#ffe9a8" font-size="38" font-family="Microsoft YaHei, Arial" font-weight="700">宁波大学人工智能学院</text>
+      <circle cx="840" cy="600" r="230" fill="url(#glow)"/>
+      <circle cx="880" cy="180" r="210" fill="#f6d784" opacity=".14"/>
+      <circle cx="180" cy="1160" r="280" fill="#78d9ff" opacity=".11"/>
+      <rect x="72" y="70" width="936" height="155" rx="28" fill="#ffffff" opacity=".1" stroke="#ffffff" stroke-opacity=".18"/>
+      <image href="${nbuLogo}" x="100" y="95" width="104" height="104"/>
+      <image href="${aiLogo}" x="222" y="88" width="118" height="118"/>
+      <text x="368" y="145" fill="#ffe9a8" font-size="36" font-family="Microsoft YaHei, Arial" font-weight="700">宁波大学人工智能学院</text>
+      <text x="368" y="190" fill="#d6f5ff" font-size="22" font-family="Microsoft YaHei, Arial">School of Artificial Intelligence, Ningbo University</text>
       <text x="90" y="445" fill="#ffffff" font-size="58" font-family="Microsoft YaHei, Arial" font-weight="700">师恩如星，智启未来</text>
+      ${constellation}
       <text x="90" y="570" fill="#d6f5ff" font-size="34" font-family="Microsoft YaHei, Arial">献给</text>
       <text x="90" y="685" fill="#ffe9a8" font-size="96" font-family="Microsoft YaHei, Arial" font-weight="800">${safeName}</text>
-      <text x="90" y="755" fill="#d6f5ff" font-size="34" font-family="Microsoft YaHei, Arial">${safeTitle}</text>
-      <rect x="90" y="850" width="900" height="310" rx="18" fill="#ffffff" opacity=".92"/>
+      <text x="90" y="755" fill="${starColor}" font-size="38" font-family="Microsoft YaHei, Arial" font-weight="700">${safeTitle}</text>
+      <rect x="90" y="850" width="900" height="310" rx="18" fill="#ffffff" opacity=".94"/>
+      <rect x="90" y="850" width="900" height="12" rx="6" fill="${starColor}" opacity=".92"/>
       <text x="140" y="930" fill="#10233b" font-size="42" font-family="Microsoft YaHei, Arial" font-weight="700">教师节快乐</text>
       <foreignObject x="140" y="965" width="800" height="150">
         <div xmlns="http://www.w3.org/1999/xhtml" style="font-size:32px;line-height:1.65;color:#40536a;font-family:'Microsoft YaHei',Arial;word-break:break-all;">${safeGreeting}</div>
@@ -407,8 +442,13 @@ export default function Home() {
 
       <header className="relative z-10 flex items-center justify-between px-5 py-4 sm:px-8 lg:px-12">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="logo-seal" aria-label="宁波大学校徽">
-            <img src="/brand/nbu-logo.png" alt="宁波大学校徽" />
+          <div className="brand-mark-row">
+            <div className="logo-seal" aria-label="宁波大学校徽">
+              <img src="/brand/nbu-logo.png" alt="宁波大学校徽" />
+            </div>
+            <div className="ai-logo-seal" aria-label="宁波大学人工智能学院logo">
+              <img src="/brand/ai-logo.png" alt="宁波大学人工智能学院logo" />
+            </div>
           </div>
           <div className="min-w-0">
             <p className="text-sm font-semibold tracking-wide text-[#f6d784]">宁波大学</p>
@@ -472,12 +512,17 @@ export default function Home() {
             {teachers.map((teacher) => (
               <button
                 key={teacher.id}
-                className={`star-node ${selected.id === teacher.id ? 'active' : ''}`}
+              className={`star-node ${activeId === teacher.id ? 'active' : ''}`}
                 style={{
                   left: `${teacher.x}%`,
                   top: `${teacher.y}%`,
                   transform: `translate(-50%, -50%) scale(${teacher.glow})`,
-                }}
+                  '--star-color': teacher.color,
+                } as CSSProperties}
+                onMouseEnter={() => setHoveredId(teacher.id)}
+                onMouseLeave={() => setHoveredId(null)}
+                onFocus={() => setHoveredId(teacher.id)}
+                onBlur={() => setHoveredId(null)}
                 onClick={() => {
                   setSelectedId(teacher.id);
                 }}
@@ -509,32 +554,41 @@ export default function Home() {
                 </TabsList>
               </Tabs>
             </div>
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="text-sm text-slate-500">当前星宿</p>
-                <h2 className="mt-1 text-3xl font-semibold">{displayName}</h2>
-                <p className="mt-1 text-sm font-medium text-[#14779a]">{selected.name}</p>
-              </div>
-              <Sparkles className="h-6 w-6 text-[#ca941f]" />
-            </div>
+            {activeTeacher ? (
+              <>
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-sm text-slate-500">当前星宿</p>
+                    <h2 className="mt-1 text-3xl font-semibold">{displayName}</h2>
+                    <p className="mt-1 text-sm font-medium" style={{ color: activeTeacher.color }}>
+                      {activeTeacher.name}
+                    </p>
+                  </div>
+                  <Sparkles className="h-6 w-6" style={{ color: activeTeacher.color }} />
+                </div>
 
-            <div className="mt-5 flex flex-wrap gap-2">
-              {selected.keywords.map((keyword) => (
-                <span key={keyword} className="rounded-full bg-[#e9f7fb] px-3 py-1 text-sm text-[#12627f]">
-                  {keyword}
-                </span>
-              ))}
-            </div>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {activeTeacher.keywords.map((keyword) => (
+                    <span key={keyword} className="rounded-full px-3 py-1 text-sm text-[#12627f]" style={{ backgroundColor: `${activeTeacher.color}24` }}>
+                      {keyword}
+                    </span>
+                  ))}
+                </div>
 
-            <div className="mt-5 rounded-[8px] border border-[#d8e7ed] bg-[#f8fcfd] p-4">
-              <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-[#0d5b78]">
-                <MessageCircleHeart className="h-4 w-4" />
-                同学们眼中的您
+                <div className="mt-5 rounded-[8px] border border-[#d8e7ed] bg-[#f8fcfd] p-4">
+                  <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-[#0d5b78]">
+                    <MessageCircleHeart className="h-4 w-4" />
+                    同学们眼中的您
+                  </div>
+                  <p className="text-base leading-8 text-slate-700">{generatedGreeting}</p>
+                </div>
+              </>
+            ) : (
+              <div className="star-detail-empty">
+                <Sparkles className="h-6 w-6 text-[#ca941f]" />
+                <p>移动到一颗星上，查看对应祝福。</p>
               </div>
-              <p className="text-base leading-8 text-slate-700">
-                {generatedGreeting}
-              </p>
-            </div>
+            )}
 
             <Textarea
               value={studentLine}
@@ -545,9 +599,10 @@ export default function Home() {
           </section>
 
           <section className="rounded-[8px] border border-[#f6d784]/24 bg-[#fff9e8] p-5 text-[#15233a] shadow-xl shadow-black/15">
-            <div className="teacher-card">
+            <div className="teacher-card" style={{ '--card-accent': selected.color } as CSSProperties}>
               <div className="flex items-center gap-3">
                 <img src="/brand/nbu-logo.png" alt="宁波大学校徽" className="h-12 w-12 object-contain" />
+                <img src="/brand/ai-logo.png" alt="宁波大学人工智能学院logo" className="h-12 w-12 object-contain" />
                 <div>
                   <p className="text-sm font-semibold text-[#7d5a14]">宁波大学人工智能学院</p>
                 </div>
@@ -555,6 +610,7 @@ export default function Home() {
               <div className="mt-6">
                 <p className="text-sm text-slate-500">献给</p>
                 <p className="mt-1 text-4xl font-semibold text-[#10233b]">{displayName}</p>
+                <p className="mt-2 text-sm font-semibold" style={{ color: selected.color }}>{selected.name}</p>
                 <p className="mt-4 text-lg leading-8 text-slate-700">
                   愿每一次授课都被记得，每一份耐心都被看见。教师节快乐！
                 </p>
