@@ -241,56 +241,125 @@ function escapeXml(value: string) {
     .replace(/"/g, '&quot;');
 }
 
-async function loadImageDataUri(src: string) {
-  const response = await fetch(src);
-  const blob = await response.blob();
-  return await new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result));
-    reader.onerror = () => reject(reader.error);
-    reader.readAsDataURL(blob);
+async function loadCanvasImage(src: string) {
+  return await new Promise<HTMLImageElement>((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error('校徽图片加载失败，请刷新后重试。'));
+    image.src = src;
   });
 }
 
-async function downloadSvgAsPng(svg: string, fileName: string) {
-  const svgUrl = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }));
+function drawRoundImage(
+  context: CanvasRenderingContext2D,
+  image: HTMLImageElement,
+  x: number,
+  y: number,
+  size: number,
+) {
+  context.save();
+  context.beginPath();
+  context.arc(x + size / 2, y + size / 2, size / 2, 0, Math.PI * 2);
+  context.clip();
+  context.drawImage(image, x, y, size, size);
+  context.restore();
+}
 
-  try {
-    const image = await new Promise<HTMLImageElement>((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = () => reject(new Error('贺卡图片生成失败，请稍后重试。'));
-      img.src = svgUrl;
-    });
+function drawWrappedText(
+  context: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  maxWidth: number,
+  lineHeight: number,
+  maxLines: number,
+) {
+  const chars = Array.from(text);
+  let line = '';
+  let currentY = y;
+  let lines = 0;
 
-    const canvas = document.createElement('canvas');
-    canvas.width = 1080;
-    canvas.height = 1440;
-    const context = canvas.getContext('2d');
-    if (!context) {
-      throw new Error('当前浏览器不支持图片生成。');
+  for (const char of chars) {
+    const testLine = `${line}${char}`;
+    if (context.measureText(testLine).width > maxWidth && line) {
+      context.fillText(line, x, currentY);
+      line = char;
+      currentY += lineHeight;
+      lines += 1;
+      if (lines >= maxLines - 1) {
+        break;
+      }
+    } else {
+      line = testLine;
     }
-    context.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-    const pngBlob = await new Promise<Blob>((resolve, reject) => {
-      canvas.toBlob((blob) => {
-        if (blob) {
-          resolve(blob);
-        } else {
-          reject(new Error('PNG 贺卡生成失败，请稍后重试。'));
-        }
-      }, 'image/png');
-    });
-
-    const pngUrl = URL.createObjectURL(pngBlob);
-    const link = document.createElement('a');
-    link.href = pngUrl;
-    link.download = fileName;
-    link.click();
-    URL.revokeObjectURL(pngUrl);
-  } finally {
-    URL.revokeObjectURL(svgUrl);
   }
+
+  if (line && lines < maxLines) {
+    context.fillText(line, x, currentY);
+  }
+}
+
+function drawConstellationCanvas(
+  context: CanvasRenderingContext2D,
+  id: keyof typeof constellationShapes,
+  color: string,
+  offsetX: number,
+  offsetY: number,
+  scale: number,
+) {
+  const shape = constellationShapes[id];
+  context.save();
+  context.translate(offsetX, offsetY);
+  context.scale(scale, scale);
+  context.lineWidth = 4;
+  context.lineCap = 'round';
+  context.lineJoin = 'round';
+  context.strokeStyle = color;
+  context.globalAlpha = 0.86;
+  for (const path of shape.paths) {
+    context.beginPath();
+    path.forEach((pointIndex, index) => {
+      const [x, y] = shape.points[pointIndex];
+      if (index === 0) {
+        context.moveTo(x, y);
+      } else {
+        context.lineTo(x, y);
+      }
+    });
+    context.stroke();
+  }
+  context.globalAlpha = 1;
+  for (const [index, [x, y]] of shape.points.entries()) {
+    context.beginPath();
+    context.arc(x, y, index === 0 ? 7 : 5, 0, Math.PI * 2);
+    context.fillStyle = '#fff8d7';
+    context.fill();
+    context.lineWidth = 3;
+    context.strokeStyle = color;
+    context.stroke();
+  }
+  context.restore();
+}
+
+async function downloadCanvasAsPng(canvas: HTMLCanvasElement, fileName: string) {
+  const pngBlob = await new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (blob) {
+        resolve(blob);
+      } else {
+        reject(new Error('PNG 贺卡生成失败，请稍后重试。'));
+      }
+    }, 'image/png');
+  });
+
+  const pngUrl = URL.createObjectURL(pngBlob);
+  const link = document.createElement('a');
+  link.href = pngUrl;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(pngUrl);
 }
 
 declare global {
@@ -332,51 +401,113 @@ export default function Home() {
   }, [style, studentLine, displayName, selected.memory]);
 
   const downloadCard = async () => {
-    const nbuLogo = await loadImageDataUri('/brand/nbu-logo.png');
-    const aiLogo = await loadImageDataUri('/brand/ai-logo.png');
-    const safeName = escapeXml(displayName);
-    const safeTitle = escapeXml(selected.name);
-    const safeGreeting = escapeXml(`愿每一次授课都被记得，每一份耐心都被看见。教师节快乐！`);
-    const starColor = selected.color;
-    const constellation = constellationCardMarkup(selected.id as keyof typeof constellationShapes, starColor);
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1440" viewBox="0 0 1080 1440">
-      <defs>
-        <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0%" stop-color="#07172d"/>
-          <stop offset="58%" stop-color="#0d7897"/>
-          <stop offset="100%" stop-color="#fff3c0"/>
-        </linearGradient>
-        <radialGradient id="glow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="${starColor}" stop-opacity=".42"/>
-          <stop offset="100%" stop-color="${starColor}" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      <rect width="1080" height="1440" fill="url(#bg)"/>
-      <circle cx="840" cy="600" r="230" fill="url(#glow)"/>
-      <circle cx="880" cy="180" r="210" fill="#f6d784" opacity=".14"/>
-      <circle cx="180" cy="1160" r="280" fill="#78d9ff" opacity=".11"/>
-      <rect x="72" y="70" width="936" height="155" rx="28" fill="#ffffff" opacity=".1" stroke="#ffffff" stroke-opacity=".18"/>
-      <circle cx="152" cy="147" r="52" fill="#ffffff" stroke="#ffffff" stroke-opacity=".88"/>
-      <circle cx="274" cy="147" r="52" fill="#ffffff" stroke="#ffffff" stroke-opacity=".88"/>
-      <image href="${nbuLogo}" x="108" y="103" width="88" height="88"/>
-      <image href="${aiLogo}" x="230" y="103" width="88" height="88"/>
-      <text x="368" y="145" fill="#ffe9a8" font-size="36" font-family="Microsoft YaHei, Arial" font-weight="700">宁波大学人工智能学院</text>
-      <text x="368" y="190" fill="#d6f5ff" font-size="22" font-family="Microsoft YaHei, Arial">School of Artificial Intelligence, Ningbo University</text>
-      <text x="90" y="445" fill="#ffffff" font-size="58" font-family="Microsoft YaHei, Arial" font-weight="700">师恩如星，智启未来</text>
-      ${constellation}
-      <text x="90" y="570" fill="#d6f5ff" font-size="34" font-family="Microsoft YaHei, Arial">献给</text>
-      <text x="90" y="685" fill="#ffe9a8" font-size="96" font-family="Microsoft YaHei, Arial" font-weight="800">${safeName}</text>
-      <text x="90" y="755" fill="${starColor}" font-size="38" font-family="Microsoft YaHei, Arial" font-weight="700">${safeTitle}</text>
-      <rect x="90" y="850" width="900" height="310" rx="18" fill="#ffffff" opacity=".94"/>
-      <rect x="90" y="850" width="900" height="12" rx="6" fill="${starColor}" opacity=".92"/>
-      <text x="140" y="930" fill="#10233b" font-size="42" font-family="Microsoft YaHei, Arial" font-weight="700">教师节快乐</text>
-      <foreignObject x="140" y="965" width="800" height="150">
-        <div xmlns="http://www.w3.org/1999/xhtml" style="font-size:32px;line-height:1.65;color:#40536a;font-family:'Microsoft YaHei',Arial;word-break:break-all;">${safeGreeting}</div>
-      </foreignObject>
-      <text x="90" y="1270" fill="#fff5cf" font-size="28" font-family="Microsoft YaHei, Arial">2026 教师节谢师星图</text>
-    </svg>`;
-    await downloadSvgAsPng(svg, `${displayName}-教师节贺卡.png`);
-    setNotice('PNG 贺卡已生成下载');
+    setNotice('正在生成 PNG 贺卡...');
+    try {
+      const [nbuLogo, aiLogo] = await Promise.all([
+        loadCanvasImage('/brand/nbu-logo.png'),
+        loadCanvasImage('/brand/ai-logo.png'),
+      ]);
+      const starColor = selected.color;
+      const canvas = document.createElement('canvas');
+      canvas.width = 1080;
+      canvas.height = 1440;
+      const context = canvas.getContext('2d');
+      if (!context) {
+        throw new Error('当前浏览器不支持图片生成。');
+      }
+
+      const background = context.createLinearGradient(0, 0, 1080, 1440);
+      background.addColorStop(0, '#07172d');
+      background.addColorStop(0.58, '#0d7897');
+      background.addColorStop(1, '#fff3c0');
+      context.fillStyle = background;
+      context.fillRect(0, 0, 1080, 1440);
+
+      const glow = context.createRadialGradient(840, 600, 10, 840, 600, 230);
+      glow.addColorStop(0, `${starColor}70`);
+      glow.addColorStop(1, `${starColor}00`);
+      context.fillStyle = glow;
+      context.beginPath();
+      context.arc(840, 600, 230, 0, Math.PI * 2);
+      context.fill();
+
+      context.globalAlpha = 0.14;
+      context.fillStyle = '#f6d784';
+      context.beginPath();
+      context.arc(880, 180, 210, 0, Math.PI * 2);
+      context.fill();
+      context.globalAlpha = 0.11;
+      context.fillStyle = '#78d9ff';
+      context.beginPath();
+      context.arc(180, 1160, 280, 0, Math.PI * 2);
+      context.fill();
+      context.globalAlpha = 1;
+
+      context.strokeStyle = 'rgba(255,255,255,.18)';
+      context.fillStyle = 'rgba(255,255,255,.1)';
+      context.lineWidth = 2;
+      context.roundRect(72, 70, 936, 155, 28);
+      context.fill();
+      context.stroke();
+
+      for (const [x, image] of [[108, nbuLogo], [230, aiLogo]] as const) {
+        context.fillStyle = '#ffffff';
+        context.beginPath();
+        context.arc(x + 44, 147, 52, 0, Math.PI * 2);
+        context.fill();
+        context.strokeStyle = 'rgba(255,255,255,.88)';
+        context.stroke();
+        drawRoundImage(context, image, x, 103, 88);
+      }
+
+      context.fillStyle = '#ffe9a8';
+      context.font = '700 36px "Microsoft YaHei", Arial, sans-serif';
+      context.fillText('宁波大学人工智能学院', 368, 145);
+      context.fillStyle = '#d6f5ff';
+      context.font = '400 22px "Microsoft YaHei", Arial, sans-serif';
+      context.fillText('School of Artificial Intelligence, Ningbo University', 368, 190);
+
+      context.fillStyle = '#ffffff';
+      context.font = '700 58px "Microsoft YaHei", Arial, sans-serif';
+      context.fillText('师恩如星，智启未来', 90, 445);
+      drawConstellationCanvas(context, selected.id as keyof typeof constellationShapes, starColor, 760, 525, 2.2);
+
+      context.fillStyle = '#d6f5ff';
+      context.font = '400 34px "Microsoft YaHei", Arial, sans-serif';
+      context.fillText('献给', 90, 570);
+      context.fillStyle = '#ffe9a8';
+      context.font = '800 96px "Microsoft YaHei", Arial, sans-serif';
+      context.fillText(displayName, 90, 685);
+      context.fillStyle = starColor;
+      context.font = '700 38px "Microsoft YaHei", Arial, sans-serif';
+      context.fillText(selected.name, 90, 755);
+
+      context.fillStyle = 'rgba(255,255,255,.94)';
+      context.roundRect(90, 850, 900, 310, 18);
+      context.fill();
+      context.fillStyle = starColor;
+      context.globalAlpha = 0.92;
+      context.roundRect(90, 850, 900, 12, 6);
+      context.fill();
+      context.globalAlpha = 1;
+
+      context.fillStyle = '#10233b';
+      context.font = '700 42px "Microsoft YaHei", Arial, sans-serif';
+      context.fillText('教师节快乐', 140, 930);
+      context.fillStyle = '#40536a';
+      context.font = '400 32px "Microsoft YaHei", Arial, sans-serif';
+      drawWrappedText(context, '愿每一次授课都被记得，每一份耐心都被看见。教师节快乐！', 140, 1005, 800, 52, 3);
+
+      context.fillStyle = '#fff5cf';
+      context.font = '400 28px "Microsoft YaHei", Arial, sans-serif';
+      context.fillText('2026 教师节谢师星图', 90, 1270);
+
+      await downloadCanvasAsPng(canvas, `${displayName}-教师节贺卡.png`);
+      setNotice('PNG 贺卡已生成下载');
+    } catch (error) {
+      console.error(error);
+      setNotice(error instanceof Error ? error.message : '贺卡生成失败，请稍后重试。');
+    }
   };
 
   const shareGreeting = async () => {
