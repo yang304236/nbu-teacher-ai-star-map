@@ -252,6 +252,47 @@ async function loadImageDataUri(src: string) {
   });
 }
 
+async function downloadSvgAsPng(svg: string, fileName: string) {
+  const svgUrl = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }));
+
+  try {
+    const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error('贺卡图片生成失败，请稍后重试。'));
+      img.src = svgUrl;
+    });
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 1080;
+    canvas.height = 1440;
+    const context = canvas.getContext('2d');
+    if (!context) {
+      throw new Error('当前浏览器不支持图片生成。');
+    }
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+    const pngBlob = await new Promise<Blob>((resolve, reject) => {
+      canvas.toBlob((blob) => {
+        if (blob) {
+          resolve(blob);
+        } else {
+          reject(new Error('PNG 贺卡生成失败，请稍后重试。'));
+        }
+      }, 'image/png');
+    });
+
+    const pngUrl = URL.createObjectURL(pngBlob);
+    const link = document.createElement('a');
+    link.href = pngUrl;
+    link.download = fileName;
+    link.click();
+    URL.revokeObjectURL(pngUrl);
+  } finally {
+    URL.revokeObjectURL(svgUrl);
+  }
+}
+
 declare global {
   interface Document {
     modelContext?: {
@@ -334,13 +375,8 @@ export default function Home() {
       </foreignObject>
       <text x="90" y="1270" fill="#fff5cf" font-size="28" font-family="Microsoft YaHei, Arial">2026 教师节谢师星图</text>
     </svg>`;
-    const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${displayName}-教师节贺卡.svg`;
-    link.click();
-    URL.revokeObjectURL(url);
-    setNotice('贺卡已生成下载');
+    await downloadSvgAsPng(svg, `${displayName}-教师节贺卡.png`);
+    setNotice('PNG 贺卡已生成下载');
   };
 
   const shareGreeting = async () => {
